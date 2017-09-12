@@ -4,8 +4,9 @@ function setup() {
 }
 
 function draw() {
-  background(50,250,0);
-  ellipse(125,100,50,33);
-  ellipse(275,100,50,33);
+  noStroke();
+  background(0,250,120);
+  ellipse(125,100,60,45);
+  ellipse(275,100,60,45);
   arc(175, 250, 200, 200, 0, PI+QUARTER_PI, CHORD);
 }
