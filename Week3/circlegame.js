@@ -1,10 +1,13 @@
-let ex = 45 ;
-let ey = 200 ;
 let points = 0;
 let GoalSize =50 ;
+let driftSpeed = 0.03;
+let comeToSpeed = 0.08;
+let reD = [255,0,0];
+let blacK = 0;
 let goalX;
 let goalY;
 let chunkMover;
+let inGoal;
 
 var browserSize = {
   browserWidth: window.innerWidth || document.body.clientWidth,
@@ -15,31 +18,31 @@ let canvasSizeWidth = browserSize.browserWidth;
 let canvasSizeHeight = browserSize.browserHeight;
 
 function Puck(){
-  this.x = ex;
-  this.y = ey;
+  this.x = width/2;
+  this.y = height/1.5;
 }
 
 Puck.prototype.display = function(){
   stroke(200,50);
   fill(0);
-  ellipse(this.x, this.y, 70,70);
-  if(points>10000){
+  ellipse(this.x, this.y, 50,50);
+  if(points>100000){
     fill(255,0,0);
   } else{
     fill(255);
   }
-  ellipse(this.x, this.y, 50,50);
+  ellipse(this.x, this.y, 30,30);
 }
 
 Puck.prototype.drift = function(){
   let diffX = mouseX - this.x;
   let diffY = mouseY - this.y;
   if(mouseIsPressed){
-    this.x += diffX * 0.1;
-    this.y += diffY * 0.1;
+    this.x += diffX * comeToSpeed;
+    this.y += diffY * comeToSpeed;
   } else {
-    this.y += diffX * 0.05 + random();
-    this.x += diffY * 0.05 + random();
+    this.y += diffX * driftSpeed + random();
+    this.x += diffY * driftSpeed + random();
   }
   if(this.x>width){
     this.x = 0;
@@ -56,7 +59,8 @@ Puck.prototype.drift = function(){
 }
 
 Puck.prototype.pointsDelivery = function(){
-  if(this.x < width/2+50 & this.x > width/2-50 & this.y < height/2+GoalSize/2 & this.y > height/2-GoalSize/2){
+  inGoal = this.x < width/2+GoalSize/2 & this.x > width/2-GoalSize/2 & this.y < height/2+GoalSize/2 & this.y > height/2-GoalSize/2;
+  if(inGoal){
 
     points = points + 1;
     fill(255, 50, 0);
@@ -75,62 +79,32 @@ Puck.prototype.pointsDelivery = function(){
 }
 
 
-function pointsUpWords(){
-  if(points > 50 & points <200 ){
-    fill(0);
-    text("getting the hang of it?",width/10,height/3);
-  }
-  if(points > 500 & points < 750){
-    fill(0);
-    text("I wonder how high these numbers can go",width/4,height/3);
-  }
-  if(points > 1000 & points < 1200){
-    fill(0);
-    text("they say if you get to 100000 your wish will come true",100,height/3);
-  }
-  if(points > 2000 & points < 2200){
-    fill(0);
-    text("what are you going to wish for?",100,height/3);
-  }
-  if(points > 3000 & points < 3250){
-    fill(0);
-    text("do you think Sisyphus is still rolling his boulder?",100,height/3);
+function _pointsFiller(lowPoints, highPoints, message,messageColor,locationX,locationY){
+  if(points > lowPoints & points < highPoints ){
+    fill(messageColor);
+    text(message,locationX,locationY);
   }
 }
 
+function pointsUpWords(){
+
+  _pointsFiller(50,200,"getting the hang of it?",blacK,width/10,height/3);
+  _pointsFiller(500,750,"I wonder how high these numbers can go",blacK,width/4,height/3);
+  _pointsFiller(1000,1200,"they say if you get to 100000 your wish will come true",blacK,width/4,height/3);
+  _pointsFiller(2000,2200,"what are you going to wish for?",blacK,width/4,height/3);
+  _pointsFiller(3000,3250,"do you think Sisyphus is still rolling his boulder?",blacK,width/4,height/3)
+
+}
+
 function pointsDownWords(){
-  if(points < -350 & points > -450){
-    fill(0);
-    text("wow you aren't very good at this",100,200);
-  }
-  if(points < -600 & points > -800){
-    fill(0);
-    text("do you even know the rules",100,200);
-  }
-  if(points < -2150 & points > -2550){
-    fill(255, 0, 0);
-    text("you're going to make them angry",100,200);
-  }
-  if(points < -1250 & points > -1700 ){
-    fill(0);
-    text("surely you've figured it out by now",100,200);
-  }
-  if(points < -2500 & points > -2750){
-    fill(255, 0, 0);
-    text("down down down",100,300);
-  }
-  if(points < -2650 & points > -2800){
-    fill(255, 0, 0);
-    text("tumbling, crumbling",100,height-100);
-  }
-  if(points < -3300 & points > -3500){
-    fill(0);
-    text("I was kidding about making them angry",200,200);
-  }
-  if(points < -3450 & points > -3800){
-    fill(0);
-    text("there's no them, it's just us here",200,height-100);
-  }
+  _pointsFiller(-450,-350,"wow you aren't very good at this",blacK,width/4,height/3);
+  _pointsFiller(-800,-600,"do you even know the rules",blacK,width/4,height/3);
+  _pointsFiller(-1500,-1250,"surely you've figured it out by now",blacK,width/4,height/3);
+  _pointsFiller(-2550,-2150,"you're going to make them angry",reD,width/4,height/3);
+  _pointsFiller(-2750,-2500,"down down down",reD,width/4,height/2);
+  _pointsFiller(-2800,-2650,"tumbling, crumbling",reD,width/3,height/1.5);
+  _pointsFiller(-3500,-3300,"I was kidding about making them angry",blacK,width/4,height/3);
+  _pointsFiller(-3800,-3450,"there's no them, it's just us here",blacK,width/3,height/2);
 }
 
 function goal(){
@@ -152,6 +126,7 @@ function setup() {
   goalY = height/2-GoalSize/2;
   chunkMover = 2*GoalSize/3;
   gamePuck = new Puck();
+
 }
 
 
