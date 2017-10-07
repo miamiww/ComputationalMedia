@@ -14,3 +14,7 @@ function mousePressed(){
   console.log("mouse was pressed!");
   ellipse(mouseX,mouseY,200,200);
 }
+
+function mouseReleased(){
+
+}
