@@ -5,4 +5,5 @@
 * edge detection
 
 # Transformations and functions
-* 
+* check notetransformation.js
+* check notesfunctions.js
