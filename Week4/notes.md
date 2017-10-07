@@ -7,3 +7,6 @@
 # Transformations and functions
 * check notetransformation.js
 * check notesfunctions.js
+* check notesScale.js
+* check notesRotate.js
+* in this order (usually) translate, rotate, scale
