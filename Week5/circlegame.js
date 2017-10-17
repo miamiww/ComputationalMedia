@@ -94,17 +94,12 @@ function pointsUpWords(){
   _pointsFiller(2000,2200,"what are you going to wish for?",blacK,width/2,height/1.5);
   _pointsFiller(2900,3250,"do you think Sisyphus is still rolling his boulder?",blacK,width/4,height/3)
   _pointsFiller(3300,3600,"or do you think at one point he just",blacK,width/4,height/3);
-//  _pointsFiller(3580,3800,"unclicked?",reD,width/4,height/2);
   _pointsFiller(3580,3800,"unclicked?",reD,width/1.7,height/2);
   _pointsFiller(3900,4200,"and just watched it",blacK,width/3,height/4);
   _pointsFiller(4100,4280,"roll,",blacK,width/2.5,height/1.5);
   _pointsFiller(4160,4310,"roll,",blacK,width/2.4,height/1.35);
   _pointsFiller(4220,4340,"roll",blacK,width/2.2,height/1.23);
   _pointsFiller(4400,4600,"all the way down for the last time",blacK,width/3,height/1.2);
-
-
-
-
 
 
 }
@@ -115,7 +110,7 @@ function pointsDownWords(){
   _pointsFiller(-1500,-1250,"surely you've figured it out by now",blacK,width/4,height/3);
   _pointsFiller(-2550,-2150,"you're going to make them angry",reD,width/4,height/3);
   _pointsFiller(-2750,-2500,"down down down",reD,width/4,height/2);
-  _pointsFiller(-2800,-2650,"tumbling, crumbling",reD,width/3,height/1.5);
+  _pointsFiller(-2800,-2650,"tumbling, tumbling",reD,width/3,height/1.5);
   _pointsFiller(-3500,-3200,"I was kidding about making them angry",blacK,width/4,height/3);
   _pointsFiller(-3800,-3450,"there's no them, it's just us here",blacK,width/3,height/1.5);
   _pointsFiller(-3950,-3850,"forever",blacK,width/2,height/1.5);
