@@ -34,7 +34,7 @@ function draw(){
   if(buttonEndGame.length>9){
     background(0,235,155);
     rotate();
-    text("THANK YOU FOR DEFEATING THE BUTTON ARMY",width/2,height/2);
+    text("THANK YOU FOR DEFEATING THE BUTTON ARMY",0,height/2,200,1000);
   } else{
     background(255);
   }
