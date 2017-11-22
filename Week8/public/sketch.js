@@ -47,7 +47,7 @@ function welcome(){
 //  fill(0,0,0,0);
   text("cheese tweets " + cheeseLogger.length,10,40);
   text("seconds " + Math.floor(millis()/1000),10,55);
-  text("cheese per second " +cheeseLogger.length/Math.floor(millis()/1000),10,70);
+  text("cheese per second " + cheeseLogger.length/Math.floor(millis()/1000),10,70);
 //  clear();
 }
 

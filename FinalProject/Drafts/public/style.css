@@ -2,6 +2,12 @@ body {
   font-family: Courier;
 }
 
+title {
+  font-family: Courier;
+}
+
 button {
   font-family: Courier;
+  color: white;
+  background-color: black;
 }

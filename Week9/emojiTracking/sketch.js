@@ -40,6 +40,7 @@ function draw() {
 
   // get array of face marker positions [x, y] format
   var positions = ctracker.getCurrentPosition();
+  var pixels = 
 
 //  for (var i=0; i<positions.length; i++) {
     // set the color of the ellipse based on position on screen
