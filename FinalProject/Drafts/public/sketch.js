@@ -3,6 +3,7 @@ var socket = io.connect(window.location.origin);
 
 //set global variables for tracking
 var clickData = {};
+var totalClicks = [];
 var leftButtonRecord = [];
 var rightButtonRecord = [];
 var lastButtonClicked;
@@ -23,6 +24,7 @@ var buttonPositions = {
   y: canvasSize.y - 40
 }
 
+var startButtonOffset;
 var leftButtonOffset;
 var rightButtonOffset = 20;
 
@@ -30,8 +32,7 @@ var rightButtonOffset = 20;
 //the basic p5 functions
 function setup(){
   canvas = createCanvas(canvasSize.x,canvasSize.y);
-
-
+  beginningButton();
 }
 
 function draw(){
@@ -46,6 +47,7 @@ function beginningButton(){
 }
 
 function decisionButtons(){
+  buttonRecorder("start");
   startButton.remove();
   leftButton = createButton("introvert");
   leftButtonOffset = leftButton.width + rightButtonOffset/2;
@@ -58,27 +60,44 @@ function decisionButtons(){
 
 //this is what happens when you click the left button
 function buttonDeciderLeft(){
-  lastButtonClicked = "left";
   leftButtonRecord.push(1);
-  saveStuff(lastButtonClicked);
+  buttonRecorder("introvert");
   if(leftButtonRecord.length==1){
     console.log("success");
   } else{
     console.log("fail");
   }
+  _level2trigger();
 }
 
 //this is what happens when you click the right button
 function buttonDeciderRight(){
-  lastButtonClicked = "right";
   rightButtonRecord.push(1);
-  saveStuff(lastButtonClicked);
+  buttonRecorder("extrovert");
   if(rightButtonRecord.length==1){
     console.log("success");
   } else{
     console.log("fail");
   }
+  _level2trigger();
 }
+
+function _level2trigger(){
+  if(totalClicks.length == 10){
+    removeLevel1();
+    startLevel2();
+  }
+}
+
+function removeLevel1(){
+  rightButton.remove();
+  leftButton.remove();
+}
+
+function startLevel2(){
+
+}
+
 
 
 //function to send out data to be stored via socket
@@ -92,4 +111,10 @@ function saveStuff(obj) {
   clickData.clicked = obj;
   clickData.time = new Date().getTime();
   _emitter(clickData);
+}
+
+function buttonRecorder(button){
+  lastButtonClicked = button;
+  saveStuff(lastButtonClicked);
+  totalClicks.push(button);
 }
