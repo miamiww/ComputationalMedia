@@ -4,35 +4,46 @@ var socket = io.connect(window.location.origin);
 //set global variables for tracking
 var clickData = {};
 var totalClicks = [];
-var leftButtonRecord = [];
-var rightButtonRecord = [];
+var introvertButtonRecord = [];
+var extrovertButtonRecord = [];
 var lastButtonClicked;
+var level1Clicks = [];
+var level2Clicks = [];
+
+var level1length = 10;
 
 //set all text displayed
 var beasts = ["ghost", "elf", "unicorn", "chimera", "goblin"];
-var lands = ["forest", "marsh", "velt", "crag", "tundra"];
-var gameText = ["it's your first day on the job as Cambridge Analytica's new psychographic neural network! can you correctly categorize these humans' personality types based on their responses to a Buzzfeed matching quiz?",
-                beast2landMatch(),
-                beast2landMatch(),
-                beast2landMatch(),
-                beast2landMatch(),
-                beast2landMatch(),
-                beast2landMatch(),
-                beast2landMatch(),
-                beast2landMatch()]
-function beast2landMatch(){
-  var bucket = [0,1,2,3,4];
+var lands = ["forest", "marsh", "veld", "crag", "tundra"];
+var gameTextlevel1 = ["it's your first day on the job as Cambridge Analytica's new psychographic neural network! can you correctly categorize humans' personality types based on their responses to the viral Facebook quiz 'Help Hagrid! Match the Beast to Its Home' ?"]
+for(var i = 2; i <= level1length; i++){
+  gameTextlevel1.push(beast2landMatch(beasts.length));
+}
+gameTextlevel1.push("");
+
+
+var gameTextlevel2 = ["",
+                      "great job!","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5"];
+
+
+function beast2landMatch(n, start){
+  let bucket = [];
+  let matchResults = "";
+
+  for(let i= start || 0; i <= n-1 ; i++) {
+      bucket.push(i);
+  }
 
   function  getRandomFromBucket(){
      var randomIndex = Math.floor(Math.random()*bucket.length);
      return bucket.splice(randomIndex, 1)[0];
   }
 
-  return beasts[0]+" - "+lands[getRandomFromBucket()]+"\n"+
-  beasts[1]+" - "+lands[getRandomFromBucket() ]+"\n"+
-  beasts[2]+" - "+lands[getRandomFromBucket()]+"\n"+
-  beasts[3]+" - "+lands[getRandomFromBucket()]+"\n"+
-  beasts[4]+" - "+lands[getRandomFromBucket()]+"\n";
+  for(let i= start || 0; i <= n-1 ; i++){
+    matchResults = matchResults + beasts[i]+" - "+lands[getRandomFromBucket()]+"\n";
+  }
+
+  return matchResults;
 }
 
 
@@ -54,8 +65,8 @@ var buttonPositions = {
 }
 
 var startButtonOffset;
-var leftButtonOffset;
-var rightButtonOffset = 20;
+var introvertButtonOffset;
+var extrovertButtonOffset = 20;
 
 
 //the basic p5 functions
@@ -66,38 +77,45 @@ function setup(){
 
 function draw(){
   background(220);
-  level1QuizDisplay(totalClicks.length);
+  level1QuizDisplay(level1Clicks.length);
+  level2Display(level2Clicks.length);
 }
 
+
+//DOM buttons for interaction
 function beginningButton(){
   startButton = createButton("start");
   startButtonOffset = startButton.width/2;
   startButton.position(centerPoint.x-startButtonOffset,centerPoint.y);
+  startButton.size(50,50);
   startButton.mousePressed(decisionButtons);
 }
 
 function decisionButtons(){
   buttonRecorder("start");
   startButton.remove();
-  leftButton = createButton("introvert");
-  leftButtonOffset = leftButton.width + rightButtonOffset/2;
-  leftButton.position(buttonPositions.x - leftButtonOffset,buttonPositions.y);
-  leftButton.mousePressed(buttonDeciderLeft);
-  rightButton = createButton("extrovert");
-  rightButton.position(leftButton.x + leftButton.width + rightButtonOffset, leftButton.y);
-  rightButton.mousePressed(buttonDeciderRight);
+  level1Clicks.push(1);
+  introvertButton = createButton("introvert");
+  introvertButtonOffset = introvertButton.width + extrovertButtonOffset/2;
+  introvertButton.position(buttonPositions.x - introvertButtonOffset,buttonPositions.y);
+  introvertButton.mousePressed(buttonDeciderLeft);
+  extrovertButton = createButton("extrovert");
+  extrovertButton.position(introvertButton.x + introvertButton.width + extrovertButtonOffset, introvertButton.y);
+  extrovertButton.mousePressed(buttonDeciderRight);
 }
 
 //this is what happens when you click the left button
 function buttonDeciderLeft(){
-  leftButtonRecord.push(1);
+  introvertButtonRecord.push(1);
+  level1Clicks.push(1);
   buttonRecorder("introvert");
   _level2trigger();
 }
 
 //this is what happens when you click the right button
 function buttonDeciderRight(){
-  rightButtonRecord.push(1);
+  extrovertButtonRecord.push(1);
+  level1Clicks.push(1);
   buttonRecorder("extrovert");
   _level2trigger();
 }
@@ -106,30 +124,48 @@ function buttonDeciderRight(){
 //this displays the quiz results for level 1 and puts them in draw
 function level1QuizDisplay(n){
   if(n==0){
-    text(gameText[n],0,10,width,150);
+    textFont("Courier New");
+    textAlign(CENTER);
+    text(gameTextlevel1[n],0,30,width,170);
   } else{
     push();
+    textFont("Courier New");
     textAlign(CENTER,LEFT);
-    text(gameText[n],centerPoint.x,centerPoint.y)
+    text(gameTextlevel1[n],centerPoint.x,centerPoint.y)
+    pop();
+  }
+}
+
+function level2Display(n){
+  if(n==1){
+    textFont("Courier New");
+    textAlign(CENTER);
+    text(gameTextlevel2[n],0,30,width,170);
+  }
+  if(n > 1){
+    push();
+    textFont("Courier New");
+    textAlign(CENTER,LEFT);
+    text(gameTextlevel2[n],centerPoint.x,centerPoint.y)
     pop();
   }
 }
 
 
-
 function _level2trigger(){
-  if(totalClicks.length == 10){
+  if(totalClicks.length == level1length){
     _removeLevel1();
     startLevel2();
   }
 }
 
 function _removeLevel1(){
-  rightButton.remove();
-  leftButton.remove();
+  extrovertButton.remove();
+  introvertButton.remove();
 }
 
 function startLevel2(){
+  level2Clicks.push(1);
 
 }
 
