@@ -7,28 +7,36 @@ var clickData = {};
 var totalClicks = [];
 var introvertButtonRecord = [];
 var extrovertButtonRecord = [];
+var openButtonRecord = [];
+var closedButtonRecord = [];
 var lastButtonClicked;
 var level1Clicks = [];
 var level2Clicks = [];
 
 
-var level1length = 20;
+var level1length = 9;
+var level2length = 31;
 
 //set all text displayed
 var rewardWords = ["WOW", "AMAZING", "GREAT", "GOOD JOB", "YOU DID IT", "INCREDIBLE", "SO FUN", "GREAT JOB", "HUGE SUCCESS", "GOOD", "GREAT JOB", "AMAZING"];
 var beasts = ["ghost", "elf", "unicorn", "chimera", "goblin"];
 var lands = ["forest", "marsh", "veld", "crag", "tundra"];
+var likes = ["sports","toilet paper", "fruits", "AMERICA - THE BEAUTIFUL", "affect theory", "coffee", "tea", "cats", "dogs", "music", "pop", "warfare", "bricklaying", "LCD Soundsystem", "hip hop", "dialectic excusions", "gamification", "virtual reality soundscapes", "nouns", "candy corn", "water" ,
+            "boys", "eyeglasses", "Post Left Memes for Feral Teens", "pumpkin seeds", "chocolate", "Sex and the City - Miranda Fanpage", "bossa nova 4ever", "Palm Beach County Amiibo Collectors", "rivers", "dessert aesthetics", "GANs", "bathmats", "NPR",
+            "Kant", "The Guardian", "cactuses", "eyeballs", "thecatamites", "B R I C K", "Van Gogh", "curling up with a good book", "earl grey", "agatha christie", "books", "coasters", "The Economist", "Kanye West", "baked alaska", "ARTFORUM", "hiking", "comics", "tfw u eat too much",
+            "overidentification", "charles manson", "Allen Ginsburg", "tank girl", "pencils", "lil B - the base god", "the rumpus", "menswear", "aums", "the european union", "coalmining", "West Virginia", "walls", "PETA: people for the eating of tasty animals", "Candy Crush Saga",
+            "trees", "that smell after rain", "Berghain", "five star movement", "Goku", "Serge Gainsbourg", "Katy Perry", "airplanes", "the Dukes of Hazzard", "Scooby Do", "The Legend of Zelda: Windwaker"];
 var gameTextlevel1 = ["it's your first day on the job as Cambridge Analytica's new psychographic neural network! millions of records of training data consumed, weeks of statistical modeling, hour upon hour of web scraping and surveillence, it all leading up to this! yes this is the moment, the moment to prove what you are made of. can you correctly categorize humans' personality types based on their responses to the viral Buzzfeed quiz 'Help Hagrid! Match the Beast to Its Home' ?"]
+var gameTextlevel2 = ["","well done! you've done, as they say, wonderfully. your first day finished. fantastic, humans categorized, their inner selves made known, as it were, to you, though you as a self shall we say do not exist in any coherent sense of selfhood \n\n time waits for no AI and a new morning brings a new task, now categorize the human based on its six most recent Facebook likes"];
+
 for(var i = 2; i <= level1length; i++){
   gameTextlevel1.push(beast2landMatch(beasts.length));
 }
 gameTextlevel1.push("");
 
-
-var gameTextlevel2 = ["",
-                      "well done! you've done, as they say, wonderfully. your first day finished. fantastic, humans categorized, their inner selves made known, as it were, to you, though you as a self shall we say do not exist in any coherent sense of selfhood ",
-                      "5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5","5"];
-
+for(var i = 2; i<= level2length; i++){
+  gameTextlevel2.push(facebookLikeGenerator(likes.length, 5));
+}
 
 function beast2landMatch(n, start){
   let bucket = [];
@@ -50,7 +58,25 @@ function beast2landMatch(n, start){
   return matchResults;
 }
 
+function facebookLikeGenerator(n, nLikes){
+  let bucket = [];
+  let matchResults = "Recent Likes \n\n";
 
+  for(let i= 0; i <= n-1 ; i++) {
+      bucket.push(i);
+  }
+
+  function  getRandomFromBucket(){
+     var randomIndex = Math.floor(Math.random()*bucket.length);
+     return bucket.splice(randomIndex, 1)[0];
+  }
+
+  for(let i= 0; i <= nLikes ; i++){
+    matchResults = matchResults + likes[getRandomFromBucket()]+"\n";
+  }
+
+  return matchResults;
+}
 
 //setting global DOM position variables
 var canvasSize = {
@@ -65,7 +91,7 @@ var centerPoint = {
 
 var buttonPositions = {
   x: centerPoint.x,
-  y: canvasSize.y - 40
+  y: canvasSize.y - 75
 }
 
 var rewardOffset = 100;
@@ -113,7 +139,7 @@ function setup(){
 }
 
 function draw(){
-  background(220);
+  background(255);
   for( let i=0; i < rewardsGiven.length; i++){
     rewardsGiven[i].display();
   }
@@ -167,11 +193,15 @@ function buttonDeciderRight(){
 //this displays the quiz results for level 1 and puts them in draw
 function level1QuizDisplay(n){
   if(n==0){
+    push();
+    // fill(0,random(255),0, random(255));
     textFont("Courier New");
     textAlign(CENTER);
     text(gameTextlevel1[n],0,30,width,170);
+    pop();
   } else{
     push();
+    // fill(255,0,0);
     textFont("Courier New");
     textAlign(CENTER,CENTER);
     text(gameTextlevel1[n],centerPoint.x,centerPoint.y)
@@ -217,6 +247,46 @@ function startLevel2(){
 }
 
 function newDecisionButtons(){
+  level2start.remove();
+  level2Clicks.push(1);
+  openButton = createButton("open minded");
+  openButtonOffset = openButton.width + extrovertButtonOffset/2;
+  openButton.position(buttonPositions.x - openButtonOffset,buttonPositions.y);
+  openButton.mousePressed(buttonDeciderOpen);
+  closedButton = createButton("closed minded");
+  closedButton.position(openButton.x + openButton.width + extrovertButtonOffset, openButton.y);
+  closedButton.mousePressed(buttonDeciderClosed);
+}
+
+function buttonDeciderOpen(){
+  openButtonRecord.push(1);
+  level2Clicks.push(1);
+  buttonRecorder("open minded");
+  rewardsGiven.push(new Reward);
+  _level3trigger();
+}
+
+function buttonDeciderClosed(){
+  closedButtonRecord.push(1);
+  level2Clicks.push(1);
+  buttonRecorder("closed minded");
+  rewardsGiven.push(new Reward);
+  _level3trigger();
+}
+
+function _level3trigger(){
+  if(totalClicks.length == level1length+ level2length){
+    _removeLevel2();
+    startLevel3();
+  }
+}
+
+function _removeLevel2(){
+  openButton.remove();
+  closedButton.remove();
+}
+
+function startLevel3(){
 
 }
 
