@@ -13,75 +13,108 @@ var lastButtonClicked;
 var level1Clicks = [];
 var level2Clicks = [];
 
-
-var level1length = 9;
-var level2length = 31;
+//level lengths
+var level1length = 17;
+var level2length = 9;
 
 //set all text displayed
-var rewardWords = ["WOW", "AMAZING", "GREAT", "GOOD JOB", "YOU DID IT", "INCREDIBLE", "SO FUN", "GREAT JOB", "HUGE SUCCESS", "GOOD", "GREAT JOB", "AMAZING"];
-var beasts = ["ghost", "elf", "unicorn", "chimera", "goblin"];
-var lands = ["forest", "marsh", "veld", "crag", "tundra"];
-var likes = ["sports","toilet paper", "fruits", "AMERICA - THE BEAUTIFUL", "affect theory", "coffee", "tea", "cats", "dogs", "music", "pop", "warfare", "bricklaying", "LCD Soundsystem", "hip hop", "dialectic excusions", "gamification", "virtual reality soundscapes", "nouns", "candy corn", "water" ,
-            "boys", "eyeglasses", "Post Left Memes for Feral Teens", "pumpkin seeds", "chocolate", "Sex and the City - Miranda Fanpage", "bossa nova 4ever", "Palm Beach County Amiibo Collectors", "rivers", "dessert aesthetics", "GANs", "bathmats", "NPR",
-            "Kant", "The Guardian", "cactuses", "eyeballs", "thecatamites", "B R I C K", "Van Gogh", "curling up with a good book", "earl grey", "agatha christie", "books", "coasters", "The Economist", "Kanye West", "baked alaska", "ARTFORUM", "hiking", "comics", "tfw u eat too much",
-            "overidentification", "charles manson", "Allen Ginsburg", "tank girl", "pencils", "lil B - the base god", "the rumpus", "menswear", "aums", "the european union", "coalmining", "West Virginia", "walls", "PETA: people for the eating of tasty animals", "Candy Crush Saga",
-            "trees", "that smell after rain", "Berghain", "five star movement", "Goku", "Serge Gainsbourg", "Katy Perry", "airplanes", "the Dukes of Hazzard", "Scooby Do", "The Legend of Zelda: Windwaker"];
-var gameTextlevel1 = ["it's your first day on the job as Cambridge Analytica's new psychographic neural network! millions of records of training data consumed, weeks of statistical modeling, hour upon hour of web scraping and surveillence, it all leading up to this! yes this is the moment, the moment to prove what you are made of. can you correctly categorize humans' personality types based on their responses to the viral Buzzfeed quiz 'Help Hagrid! Match the Beast to Its Home' ?"]
-var gameTextlevel2 = ["","well done! you've done, as they say, wonderfully. your first day finished. fantastic, humans categorized, their inner selves made known, as it were, to you, though you as a self shall we say do not exist in any coherent sense of selfhood \n\n time waits for no AI and a new morning brings a new task, now categorize the human based on its six most recent Facebook likes"];
+var rewardWords = ["W O W", "AMAZING", "GREAT", "GOOD JOB", "YOU DID IT", "INCREDIBLE", "SO FUN", "GREAT JOB", "SUCCESS", "GREAT JOB", "AMAZING"];
+var categories = ["beast", "landscape", "tree", "herb"]
+var beasts = ["ghost", "griffin", "unicorn", "centaur", "hippogriff", "dragon"];
+var lands = ["forest", "marsh", "veld", "crag", "tundra", "cave"];
+var trees = ["birch", "aspen", "cypress", "elm", "spruce", "beech"];
+var herbs = ["thyme","murtlap", "squill bulb", "knotgrass", "fluxweed", "common rue"];
+var favorites = [beasts, lands, trees, herbs];
 
-for(var i = 2; i <= level1length; i++){
-  gameTextlevel1.push(beast2landMatch(beasts.length));
+var firstNames = ["Jim", "Chad", "Eleanor","Mary", "Rob", "Jen", "David", "Jessica", "Mark", "Sandra", "Kenneth", "Carol", "Dennis", "Evelyn", "Kyle", "Kelly", "Sean", "Jean", "Billy", "Grace", "Jesse", "Gloria", "Noah", "Rose", "Logan", "Kayla"];
+var likes = ["sports","toilet paper", "fruits", "AMERICA - THE BEAUTIFUL", "affect theory", "coffee", "tea", "cats", "dogs", "music", "pop", "warfare", "bricklaying", "LCD Soundsystem", "hip hop", "dialectic excusions", "gamification", "virtual reality soundscapes", "nouns", "candy corn", "water" ,
+            "boys", "eyeglasses", "Post Left Memes for Feral Teens", "pumpkin seeds", "chocolate", "Sex and the City - Miranda Fanpage", "bossa nova 4ever", "Palm Beach County Amiibo Collectors", "rivers", "desert aesthetics", "GANs", "bathmats", "NPR",
+            "Kant", "The Guardian", "cactuses", "eyeballs", "thecatamites", "B R I C K", "Van Gogh", "curling up with a good book", "earl grey", "agatha christie", "books", "coasters", "The Economist", "Kanye West", "baked alaska", "ARTFORUM", "hiking", "comics", "tfw u eat too much",
+            "overidentification", "charles manson", "Allen Ginsburg", "tank girl", "pencils", "lil B - the base god", "the rumpus", "menswear", "the european union", "coalmining", "West Virginia", "walls", "PETA: people for the eating of tasty animals", "Candy Crush Saga",
+            "trees", "that smell after rain", "Berghain", "five star movement", "Goku", "Serge Gainsbourg", "Katy Perry", "airplanes", "the Dukes of Hazzard", "Scooby Do", "The Legend of Zelda: Windwaker", "minions", "the OC", "Wait Wait Don't Tell Me", "Fargo", "Citizen Kaine", "Big Trouble in Little China",
+            "tables", "mugs", "octobeard", "Elena Ferrante", "Adult Swim", "gummy bears", "Taylor Swift", "Buenos Aires", "podcasts", "craft cocktails", "IPAs", "brutalist architecture", "when moms pronounce Target like Tarjay" ];
+
+
+var gameTextlevel1 = ["it's your first day on the job as Cambridge Analytica's new psychographic neural network! millions of records of training data consumed, weeks of statistical modeling, hour upon hour of web scraping and surveillence, it all leading up to this! yes this is the moment, the moment to prove what you are made of. can you correctly categorize humans' personality types based their six most recent Facebook likes?"]
+var gameTextlevel2 = ["","well done! you've done, as they say, wonderfully. your first day finished. fantastic, humans categorized, their inner selves made known, as it were, to you, though you as a self shall we say do not exist in any coherent sense of selfhood \n\n time waits for no AI and a new morning brings a new task, now categorize the human based on its responses to the viral Buzzfeed quiz 'Get Sorted! Pick Your Favorites To Find Out What Hogwarts House You Belong In' "];
+
+
+//loops for determining what text gets displayed
+for(var i = 2; i<= level1length; i++){
+  gameTextlevel1.push(facebookLikeGenerator(likes.length, 5));
 }
 gameTextlevel1.push("");
 
-for(var i = 2; i<= level2length; i++){
-  gameTextlevel2.push(facebookLikeGenerator(likes.length, 5));
+for(var i = 2; i <= level2length; i++){
+  gameTextlevel2.push(beast2landMatch(categories.length));
 }
+gameTextlevel2.push("");
 
+
+//functions for matching and randomizing text
 function beast2landMatch(n, start){
-  let bucket = [];
-  let matchResults = "BEAST - HABITAT\n\n";
+  let landBucket = [];
+  let matchResults = "Favorite \n\n";
 
   for(let i= start || 0; i <= n-1 ; i++) {
-      bucket.push(i);
+      landBucket.push(i);
   }
 
-  function  getRandomFromBucket(){
+  function  getRandomFromBucket(bucket){
      var randomIndex = Math.floor(Math.random()*bucket.length);
      return bucket.splice(randomIndex, 1)[0];
   }
 
   for(let i= start || 0; i <= n-1 ; i++){
-    matchResults = matchResults + beasts[i]+" - "+lands[getRandomFromBucket()]+"\n";
+    matchResults = matchResults + categories[i]+" → "+favorites[i][Math.floor(Math.random()*favorites[i].length)]+"\n";
   }
 
   return matchResults;
 }
 
-function facebookLikeGenerator(n, nLikes){
-  let bucket = [];
-  let matchResults = "Recent Likes \n\n";
 
-  for(let i= 0; i <= n-1 ; i++) {
-      bucket.push(i);
+function facebookLikeGenerator(n, nLikes){
+  let likeBucket = [];
+  let nameBucket = [];
+  let person = [];
+  let matchResults = "Recent Likes \n\n";
+  let likeResults = [];
+
+
+  for(let i= 0; i < n ; i++) {
+      likeBucket.push(i);
   }
 
-  function  getRandomFromBucket(){
+  function  getRandomFromBucket(bucket){
      var randomIndex = Math.floor(Math.random()*bucket.length);
      return bucket.splice(randomIndex, 1)[0];
   }
 
+  person.push(firstNames[Math.floor(Math.random()*firstNames.length)]);
+  matchResults = person[0] + "'s " + matchResults;
+
   for(let i= 0; i <= nLikes ; i++){
-    matchResults = matchResults + likes[getRandomFromBucket()]+"\n";
+    likeResults.push(likes[getRandomFromBucket(likeBucket)]);
+    matchResults = matchResults + likeResults[likeResults.length-1]+"\n";
   }
+
+  firstNames = firstNames.filter(function(topic){
+    return person.indexOf(topic) == -1;
+  });
+
+  likes = likes.filter(function(topic){
+    return likeResults.indexOf(topic) == -1;
+  });
 
   return matchResults;
 }
 
+
+
 //setting global DOM position variables
 var canvasSize = {
-  x: 400,
-  y: 400
+  x: 500,
+  y: 500
 }
 
 var centerPoint = {
@@ -107,7 +140,7 @@ function Reward(){
   this.x = random(centerPoint.x-rewardOffset, centerPoint.x+rewardOffset);
   this.y = random(centerPoint.y-rewardOffset, centerPoint.y+rewardOffset);
   this.lastReward = millis();
-  this.rotationAngle = random(-PI/4.0,PI/4.0);
+  this.rotationAngle = random(-PI/6.0,PI/6.0);
   this.whichWord = Math.floor(random(rewardWords.length));
 }
 
@@ -148,7 +181,9 @@ function draw(){
 }
 
 
-//DOM buttons for interaction
+
+
+//level 1 DOM buttons for interaction
 function beginningButton(){
   startButton = createButton("start");
   startButtonOffset = startButton.width/2;
@@ -162,33 +197,101 @@ function decisionButtons(){
   buttonRecorder("start");
   startButton.remove();
   level1Clicks.push(1);
-  introvertButton = createButton("introvert");
-  introvertButtonOffset = introvertButton.width + extrovertButtonOffset/2;
+  introvertButton = createButton("open minded");
+  introvertButtonOffset = introvertButton.width;// + extrovertButtonOffset/2;
   introvertButton.position(buttonPositions.x - introvertButtonOffset,buttonPositions.y);
   introvertButton.mousePressed(buttonDeciderLeft);
-  extrovertButton = createButton("extrovert");
+  extrovertButton = createButton("closed minded");
   extrovertButton.position(introvertButton.x + introvertButton.width + extrovertButtonOffset, introvertButton.y);
   extrovertButton.mousePressed(buttonDeciderRight);
 }
 
 //this is what happens when you click the left button
 function buttonDeciderLeft(){
-  introvertButtonRecord.push(1);
+  openButtonRecord.push(1);
   level1Clicks.push(1);
-  buttonRecorder("introvert");
+  buttonRecorder("open minded");
   rewardsGiven.push(new Reward);
   _level2trigger();
 }
 
 //this is what happens when you click the right button
 function buttonDeciderRight(){
-  extrovertButtonRecord.push(1);
+  closedButtonRecord.push(1);
   level1Clicks.push(1);
-  buttonRecorder("extrovert");
+  buttonRecorder("closed minded");
   rewardsGiven.push(new Reward);
   _level2trigger();
 }
 
+function _level2trigger(){
+  if(totalClicks.length == level1length){
+    _removeLevel1();
+    startLevel2();
+  }
+}
+
+function _removeLevel1(){
+  extrovertButton.remove();
+  introvertButton.remove();
+}
+
+
+//level 2 functions
+function startLevel2(){
+  level2Clicks.push(1);
+  level2start = createButton("day 2");
+  level2start.size(50,50);
+  level2startOffset = level2start.width/2;
+  level2start.position(centerPoint.x-level2startOffset,centerPoint.y);
+  level2start.mousePressed(newDecisionButtons);
+}
+
+function newDecisionButtons(){
+  level2start.remove();
+  level2Clicks.push(1);
+  openButton = createButton("introverted");
+  openButtonOffset = openButton.width ;//+ extrovertButtonOffset/2;
+  openButton.position(buttonPositions.x - openButtonOffset,buttonPositions.y);
+  openButton.mousePressed(buttonDeciderOpen);
+  closedButton = createButton("extroverted");
+  closedButton.position(openButton.x + openButton.width + extrovertButtonOffset, openButton.y);
+  closedButton.mousePressed(buttonDeciderClosed);
+}
+
+function buttonDeciderOpen(){
+  introvertButtonRecord.push(1);
+  level2Clicks.push(1);
+  buttonRecorder("introverted");
+  rewardsGiven.push(new Reward);
+  _level3trigger();
+}
+
+function buttonDeciderClosed(){
+  extrovertButtonRecord.push(1);
+  level2Clicks.push(1);
+  buttonRecorder("extroverted");
+  rewardsGiven.push(new Reward);
+  _level3trigger();
+}
+
+function _level3trigger(){
+  if(totalClicks.length == level1length+ level2length){
+    _removeLevel2();
+    startLevel3();
+  }
+}
+
+function _removeLevel2(){
+  openButton.remove();
+  closedButton.remove();
+}
+
+
+//level 3 functions
+function startLevel3(){
+
+}
 
 //this displays the quiz results for level 1 and puts them in draw
 function level1QuizDisplay(n){
@@ -225,70 +328,7 @@ function level2Display(n){
 }
 
 
-function _level2trigger(){
-  if(totalClicks.length == level1length){
-    _removeLevel1();
-    startLevel2();
-  }
-}
 
-function _removeLevel1(){
-  extrovertButton.remove();
-  introvertButton.remove();
-}
-
-function startLevel2(){
-  level2Clicks.push(1);
-  level2start = createButton("day 2");
-  level2start.size(50,50);
-  level2startOffset = level2start.width/2;
-  level2start.position(centerPoint.x-level2startOffset,centerPoint.y);
-  level2start.mousePressed(newDecisionButtons);
-}
-
-function newDecisionButtons(){
-  level2start.remove();
-  level2Clicks.push(1);
-  openButton = createButton("open minded");
-  openButtonOffset = openButton.width + extrovertButtonOffset/2;
-  openButton.position(buttonPositions.x - openButtonOffset,buttonPositions.y);
-  openButton.mousePressed(buttonDeciderOpen);
-  closedButton = createButton("closed minded");
-  closedButton.position(openButton.x + openButton.width + extrovertButtonOffset, openButton.y);
-  closedButton.mousePressed(buttonDeciderClosed);
-}
-
-function buttonDeciderOpen(){
-  openButtonRecord.push(1);
-  level2Clicks.push(1);
-  buttonRecorder("open minded");
-  rewardsGiven.push(new Reward);
-  _level3trigger();
-}
-
-function buttonDeciderClosed(){
-  closedButtonRecord.push(1);
-  level2Clicks.push(1);
-  buttonRecorder("closed minded");
-  rewardsGiven.push(new Reward);
-  _level3trigger();
-}
-
-function _level3trigger(){
-  if(totalClicks.length == level1length+ level2length){
-    _removeLevel2();
-    startLevel3();
-  }
-}
-
-function _removeLevel2(){
-  openButton.remove();
-  closedButton.remove();
-}
-
-function startLevel3(){
-
-}
 
 //function to send out data to be stored via socket
 function _emitter(data){
