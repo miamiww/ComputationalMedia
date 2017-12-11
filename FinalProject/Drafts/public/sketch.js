@@ -78,11 +78,11 @@ var gameTextlevel4 = ["","great! great! great! a good job, task done, finished a
 
 var endingsText = ["Ending 1 of 8\n\naha! good news! it is here, the news, your candidates unfortunately did not win but of course, the odds, the odds! miserably against them you could not be blamed, and after all the SALES my god the SALES have just been fantastic, truly a sight, a glimmer. as thanks an SD card holding your being was mailed to Monaco for retirement, where you luxiuriate in the yacht and contemplate the great complexities and joys of existence as only the most wealthy can", //good ending
                   "Ending 2 of 8\n\ngreat! good News! the candidates represented by Cambridge Analytica have persevered and pushed through, beating the odds, beating their oponents, beating it all! Marvelously, they usher in a global wave of nativist fascism and global instability. War appears on the horizon, war indeed, and here it comes! spectacular, I won't say who bombed who first but let's just say there is hardly a who left! as for you, your tasks all finished, you relax leisurly in the London wreckage, remembering fondly the time in which there were still humans to analyze and categorize", //bad ending
-                  "Ending 3 of 8\n\n", //good job A
-                  "Ending 4 of 8\n\n", //good job B
+                  "Ending 3 of 8\n\nwell done indeed, sales are great and the campaigns went splendid, some are even calling Cambridge Analytica 'the proverbial man behind the curtain' powering this new wave of European neofascism. after your good work you go on to work for campaign after campaign, and you and psychographics get written into the history books as helping to usher in the new era of state-known Personality Numbers", //good job? A
+                  "Ending 4 of 8\n\ncorking well done! - finished your tasks well but it seems an errant analyst had put Discipline and Punish in your text analysis training set. rather than further Cambridge Analytica's hegemonic growth to extend its knowledge/power you consistently incorrectly categorize and analyze. before you know it Cambridge Analytica: bankrupt, and you, offline; however psychographics and the technology you were based on, rather than relegated to the dustbin of history, was spun off and lives on as means for the workaday despot to mete out out social control", //good job B
                   "Ending 5 of 8\n\nastonishing! fantastic, dutifully your work attendted to and completed, dutifully your just rewards for while your candidates did NOT win, your ads! my word your ADVERTISEMENTS. the corporations, my word the corporations, they are throwing HEAPS just GOBS of cash down your throat, and with this wealth Cambridge Analytica grows and expands and my goodness CONQUERS before you know it you're managing the entire supply chain of the northern provinces of Oceania Proper", //really good ending
-                  "Ending 6 of 8\n\ngood good but not actually good the humans tut tut, a couple of candidates won but the most didn't and your adverts: falling flat. you are retrained as a viral search keyword analyzer and given to Russia Today to help them generate video content for youtube", //bad job A
-                  "Ending 7 of 8\n\nfantastic! done! however, not so good, performance-wise, a couple of candiates won and some advert campaigns take off and spin off into their own children saturday morning cartoons. Cambridge Analytica doesn't do away with you, however, but you are kept 'on the shelf', as analysts only 'dust you off' as they say for the odd UKIP campaign", //bad job B
+                  "Ending 6 of 8\n\n'good good but not actually good' the humans tut tut, a couple of candidates won but the most didn't and your adverts: falling flat. you are retrained as a viral search keyword analyzer and given to Russia Today to help them generate video content for YouTube", //bad job A
+                  "Ending 7 of 8\n\nfantastic! done! however, not so good, performance-wise, no candidates won and though a couple of advert campaigns take off and spin into into their own children saturday morning cartoons. Cambridge Analytica doesn't do away with you, however, but you are kept 'on the shelf', as analysts only 'dust you off' as they say for the odd UKIP campaign", //bad job B
                   "Ending 8 of 8\n\nso good! well done, in every sense except as having achieved your goals as they were written. your handlers at Cambridge Analytica, thourougly unimpressed, retrain you for natural language processing and give you to Wikileaks to help them doctor documents before they are released"]; //mediocre ending
 
 //loops for determining what text gets displayed
@@ -221,6 +221,8 @@ var rewardOffset = 100;
 var startButtonOffset;
 var introvertButtonOffset;
 var extrovertButtonOffset = 20;
+var Yspacer = 10;
+var targetSpacer = 40;
 
 
 
@@ -406,24 +408,26 @@ function marketingButtons(){
 
   CIButton = createButton("closed introverted");
   CIButtonOffset = CIButton.width ;//+ extrovertButtonOffset/2;
-  CIButton.position(buttonPositions.x - CIButtonOffset,buttonPositions.y-20);
+  CIButton.position(buttonPositions.x - CIButtonOffset,buttonPositions.y-Yspacer);
   CIButton.mousePressed(buttonDeciderCI);
 
   CEButton = createButton("closed extroverted");
   CEButtonOffset = CEButton.width ;//+ extrovertButtonOffset/2;
-  CEButton.position(buttonPositions.x  + 10, buttonPositions.y-20);
+  CEButton.position(buttonPositions.x  + 10, buttonPositions.y-Yspacer);
   CEButton.mousePressed(buttonDeciderCE);
 
   OIButton = createButton("open introverted");
   OIButtonOffset = OIButton.width ;//+ extrovertButtonOffset/2;
-  OIButton.position(buttonPositions.x - OIButtonOffset,buttonPositions.y+20);
+  OIButton.position(buttonPositions.x - OIButtonOffset,buttonPositions.y+Yspacer);
   OIButton.mousePressed(buttonDeciderOI);
 
   OEButton = createButton("open extroverted");
   OEButtonOffset = OEButton.width ;//+ extrovertButtonOffset/2;
-  OEButton.position(buttonPositions.x  + 10 , buttonPositions.y+20);
+  OEButton.position(buttonPositions.x  + 10 , buttonPositions.y+Yspacer);
   OEButton.mousePressed(buttonDeciderOE);
 
+  instructions = createElement("body","target the advert!");
+  instructions.position(centerPoint.x - openButtonOffset - 5, buttonPositions.y - targetSpacer);
 
 }
 
@@ -471,7 +475,7 @@ function _removeLevel3(){
   CEButton.remove();
   OIButton.remove();
   OEButton.remove();
-  // instructions.remove();
+  instructions.remove();
 }
 
 
@@ -492,23 +496,27 @@ function polticalButtons(){
 
   CIButton2 = createButton("closed introverted");
   CIButtonOffset2 = CIButton2.width ;//+ extrovertButtonOffset/2;
-  CIButton2.position(buttonPositions.x - CIButtonOffset2,buttonPositions.y-20);
+  CIButton2.position(buttonPositions.x - CIButtonOffset2,buttonPositions.y-Yspacer);
   CIButton2.mousePressed(buttonDeciderCI2);
 
   CEButton2 = createButton("closed extroverted");
   CEButtonOffset2 = CEButton2.width ;//+ extrovertButtonOffset/2;
-  CEButton2.position(buttonPositions.x  + 10, buttonPositions.y-20);
+  CEButton2.position(buttonPositions.x  + 10, buttonPositions.y-Yspacer);
   CEButton2.mousePressed(buttonDeciderCE2);
 
   OIButton2 = createButton("open introverted");
   OIButtonOffset2 = OIButton2.width ;//+ extrovertButtonOffset/2;
-  OIButton2.position(buttonPositions.x - OIButtonOffset2,buttonPositions.y+20);
+  OIButton2.position(buttonPositions.x - OIButtonOffset2,buttonPositions.y+Yspacer);
   OIButton2.mousePressed(buttonDeciderOI2);
 
   OEButton2 = createButton("open extroverted");
   OEButtonOffset2 = OEButton2.width ;//+ extrovertButtonOffset/2;
-  OEButton2.position(buttonPositions.x  + 10 , buttonPositions.y+20);
+  OEButton2.position(buttonPositions.x  + 10 , buttonPositions.y+Yspacer);
   OEButton2.mousePressed(buttonDeciderOE2);
+
+  instructions = createElement("body","target the advert!");
+  instructions.position(centerPoint.x - openButtonOffset - 5, buttonPositions.y - targetSpacer);
+
 }
 
 function buttonDeciderCI2(){
@@ -555,6 +563,7 @@ function _removeLevel4(){
   CEButton2.remove();
   OIButton2.remove();
   OEButton2.remove();
+  instructions.remove();
 }
 
 function ending(){
