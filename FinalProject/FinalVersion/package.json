@@ -1,0 +1,17 @@
+{
+  "name": "icmfinal",
+  "version": "0.0.1",
+  "description": "prototype of intro to computational media final",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alden jones",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "json2csv": "^3.7.3",
+    "p5": "^0.5.16",
+    "socket.io": "^2.0.4"
+  }
+}
